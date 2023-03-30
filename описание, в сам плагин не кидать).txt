@@ -1,0 +1,26 @@
+Это плагин для wp чтобы подключить react приложение по статье https://javascript.plainenglish.io/how-to-add-a-react-app-to-wordpress-pages-61aee723d607
+В итоге создаём шаблон в папке темы, чтобы вывести там шорткод типа [rack-a-tier]. Шаблон нужно продумать, чтобы там не было ничего лишнего, но чтобы там был wp_head();  the_content(); Потом создаём страницу с этим шаблоном и туда кидаем шорткод. Это версия если можно руками создать. Но мы же делаем плагин и тут по другому. Нам нужно создать шаблон (template) в самом плагине (react-template.php) который будет появлятся на странице , я там его выберу и вставлю шорткод . Вот статья про это. https://www.wpexplorer.com/wordpress-page-templates-plugin/
+ Вообще с шаблоном всё просто, там находим имя файла который вставляем и меняем его на то, что нам надо. В итоге подрубая этот плагин у нас будет шаблон на страницах, шорткод и подключённые файлы для react 
+
+Ну и не забываем активировать плагин в админке).
+В плагине подключаем скрипты только для этого шорткода:
+ if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'react-app') ) { подключаем стили и скрипты}
+
+Чтобы подключить самый основной react js файл его нужно сделать defer, без этого работать не будет.
+Чтобы сделать скрипт как defer надо в function php (если плагин для react то надо писать это в плагине) прописать
+add_filter( 'script_loader_tag', function ( $tag, $handle ) {
+
+        if ( 'plugin-react' !== $handle ) {
+                return $tag;
+        }
+
+        return str_replace( ' src', ' defer src', $tag ); // defer the script
+        //return str_replace( ' src', ' async src', $tag ); // OR async the script
+        //return str_replace( ' src', ' async defer src', $tag ); // OR do both!
+
+}, 10, 2 );
+
+Тут есть версия чтобы массив нужным скриптов делать defer https://wpshout.com/defer-parsing-javascript-wordpress/
+Если надо удалить какие то стили определённые из wp_head то https://wordpress.stackexchange.com/questions/311361/removing-specific-style-from-wp-head
+
+Ещё в этом плагине мы создаём кастомный api запрос на получение пути до этого плагина
