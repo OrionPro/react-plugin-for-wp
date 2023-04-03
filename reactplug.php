@@ -2,10 +2,10 @@
 /**
  * Plugin.
  *
- * @package Rack-a-tier
+ * @package Link In Bio
  * @wordpress-plugin
  *
- * Plugin Name:     Rack-a-tier
+ * Plugin Name:     Link In Bio
  * Description:     Add React app via shortcode and more
  * Author:          Projestic
  * Author URL:
