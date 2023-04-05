@@ -36,6 +36,12 @@ function enq_react()
 {
 	global $post;
 	if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'rack-a-tier') ) {
+        function hook_metatag() {
+            ?>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <?php
+        }
+        add_action('wp_head', 'hook_metatag');
 		wp_enqueue_style( 'twd-googlefonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap', array(), null );
 		wp_enqueue_style( 'style-plugin-react', plugin_dir_url( __FILE__ ) . 'build/static/css/main.css' );
 
