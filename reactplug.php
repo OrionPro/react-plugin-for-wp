@@ -20,7 +20,7 @@ add_shortcode('rack-a-tier', 'reactshort');
 
 add_filter( 'script_loader_tag', function ( $tag, $handle ) {
 
-	if ( 'plugin-react' !== $handle ) {
+		if ( 'plugin-react' !== $handle ) {
 		return $tag;
 	}
 
@@ -217,3 +217,177 @@ function registerUrlForImages() {
 function urlResult() {
     return plugin_dir_url( __FILE__ );
 }
+
+// Adding Custom Post Type
+add_action( 'init', 'link_in_bio_blog_cpt' );
+
+function link_in_bio_blog_cpt() {
+
+    register_post_type( 'link_in_bio_posts', array(
+        'labels' => array(
+            'name' => 'Link In Bio Posts',
+            'singular_name' => 'Post',
+        ),
+        'show_in_rest' => true,
+        'description' => 'You can create posts for the Link In Bio page',
+        'public' => true,
+        'menu_position' => 5,
+        'supports' => array( 'title', 'editor', 'custom-fields' )
+    ));
+}
+
+// Creating a local group in ACF
+function my_acf_add_local_field_groups() {
+    $fieldTitle = array (
+        /* (string) Unique identifier for the field. Must begin with 'field_' */
+        'key' => 'title',
+        /* (string) Visible when editing the field value */
+        'label' => 'Title',
+        /* (string) Used to save and load data. Single word, no spaces. Underscores and dashes allowed */
+        'name' => 'title',
+        /* (string) Type of field (text, textarea, image, etc) */
+        'type' => 'text',
+        /* (string) Instructions for authors. Shown when submitting data */
+        'instructions' => '',
+        /* (int) Whether or not the field value is required. Defaults to 0 */
+        'required' => 0,
+        /* (mixed) Conditionally hide or show this field based on other field's values.
+        Best to use the ACF UI and export to understand the array structure. Defaults to 0 */
+        'conditional_logic' => 0,
+        /* (array) An array of attributes given to the field element */
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        /* (mixed) A default value used by ACF if no value has yet been saved */
+        'default_value' => '',
+    );
+
+    $fieldPrice = array (
+        'key' => 'price',
+        'label' => 'Price',
+        'name' => 'price',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+
+        /* (mixed) A default value used by ACF if no value has yet been saved */
+        'default_value' => '',
+    );
+
+	$fieldDiscountPrice = array (
+        'key' => 'discount_price',
+        'label' => 'Discount Price',
+        'name' => 'discount_price',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+
+        /* (mixed) A default value used by ACF if no value has yet been saved */
+        'default_value' => '',
+    );
+
+    $image_field = array(
+        'key' => 'image',
+        'label' => 'Image',
+        'name' => 'image',
+        'type' => 'image',
+        /* ... Insert generic settings here ... */
+
+        /* (string) Specify the type of value returned by get_field(). Defaults to 'array'.
+        Choices of 'array' (Image Array), 'url' (Image URL) or 'id' (Image ID) */
+        'return_format' => 'array',
+
+        /* (string) Specify the image size shown when editing. Defaults to 'thumbnail'. */
+        'preview_size' => 'thumbnail',
+
+        /* (string) Restrict the image library. Defaults to 'all'.
+        Choices of 'all' (All Images) or 'uploadedTo' (Uploaded to post) */
+        'library' => 'all',
+
+        /* (int) Specify the minimum width in px required when uploading. Defaults to 0 */
+        'min_width' => 0,
+
+        /* (int) Specify the minimum height in px required when uploading. Defaults to 0 */
+        'min_height' => 0,
+
+        /* (int) Specify the minimum filesize in MB required when uploading. Defaults to 0
+        The unit may also be included. eg. '256KB' */
+        'min_size' => 0,
+
+        /* (int) Specify the maximum width in px allowed when uploading. Defaults to 0 */
+        'max_width' => 0,
+
+        /* (int) Specify the maximum height in px allowed when uploading. Defaults to 0 */
+        'max_height' => 0,
+
+        /* (int) Specify the maximum filesize in MB in px allowed when uploading. Defaults to 0
+        The unit may also be included. eg. '256KB' */
+        'max_size' => 0,
+
+        /* (string) Comma separated list of file type extensions allowed when uploading. Defaults to '' */
+        'mime_types' => '',
+
+    );
+
+    acf_add_local_field_group(array(
+        'key' => 'link_in_bio_group_1',
+        'title' => 'Fields for creating items',
+        'fields' => array (
+            $fieldTitle,
+            $fieldPrice,
+            $fieldDiscountPrice,
+            $image_field
+        ),
+        'location' => array (
+            array (
+                array (
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'link_in_bio_posts',
+                ),
+            ),
+        ),
+    ));
+
+}
+
+add_action('acf/init', 'my_acf_add_local_field_groups');
+
+// Enabling the REST API For Your ACF Fields in plugin (include all fields in custom posts)
+function create_ACF_meta_in_REST() {
+    $postypes_to_exclude = ['acf-field-group','acf-field'];
+    $extra_postypes_to_include = ["page"];
+    $post_types = array_diff(get_post_types(["_builtin" => false], 'names'),$postypes_to_exclude);
+
+    array_push($post_types, $extra_postypes_to_include);
+
+    foreach ($post_types as $post_type) {
+        register_rest_field( $post_type, 'ACF', [
+                'get_callback'    => 'expose_ACF_fields',
+                'schema'          => null,
+            ]
+        );
+    }
+
+}
+
+function expose_ACF_fields( $object ) {
+    $ID = $object['id'];
+    return get_fields($ID);
+}
+
+add_action( 'rest_api_init', 'create_ACF_meta_in_REST' );
