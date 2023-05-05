@@ -391,3 +391,6 @@ function expose_ACF_fields( $object ) {
 }
 
 add_action( 'rest_api_init', 'create_ACF_meta_in_REST' );
+
+
+add_filter( 'wpcf7_validate_configuration', '__return_false' );
