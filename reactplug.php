@@ -85,7 +85,6 @@ class PageTemplater {
 
 		$this->templates = array();
 
-
 		// Add a filter to the attributes metabox to inject template into the cache.
 		if ( version_compare( floatval( get_bloginfo( 'version' ) ), '4.7', '<' ) ) {
 
@@ -366,6 +365,339 @@ function my_acf_add_local_field_groups() {
 }
 
 add_action('acf/init', 'my_acf_add_local_field_groups');
+
+// Creating a local group in ACF
+function my_acf_add_settings_for_link_in_bio() {
+    $fieldContactFormId= array (
+        /* (string) Unique identifier for the field. Must begin with 'field_' */
+        'key' => 'id_cf7',
+        /* (string) Visible when editing the field value */
+        'label' => 'Contact Form Id',
+        /* (string) Used to save and load data. Single word, no spaces. Underscores and dashes allowed */
+        'name' => 'link_in_bio_contact_form_id',
+        /* (string) Type of field (text, textarea, image, etc) */
+        'type' => 'text',
+        /* (string) Instructions for authors. Shown when submitting data */
+        'instructions' => '',
+        /* (int) Whether or not the field value is required. Defaults to 0 */
+        'required' => 0,
+        /* (mixed) Conditionally hide or show this field based on other field's values.
+        Best to use the ACF UI and export to understand the array structure. Defaults to 0 */
+        'conditional_logic' => 0,
+        /* (array) An array of attributes given to the field element */
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        /* (mixed) A default value used by ACF if no value has yet been saved */
+        'default_value' => '',
+    );
+
+    $fieldContactFormTitle = array (
+        'key' => 'ContactFormTitle',
+        'label' => 'Contact Form Title',
+        'name' => 'link_in_bio_ContactFormTitle',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'default_value' => 'Sign Up to Save',
+    );
+
+    $fieldContactFormDescription = array (
+        'key' => 'ContactFormDescription',
+        'label' => 'Contact Form Description',
+        'name' => 'link_in_bio_ContactFormDescription',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'default_value' => 'Join our mailing list to get 20% off select products every week!',
+    );
+
+    $image_fieldHeaderLogo = array (
+        'key' => 'HeaderLogo',
+        'label' => 'Header Logo',
+        'name' => 'link_in_bio_HeaderLogo',
+        'type' => 'image',
+        'return_format' => 'array',
+        'preview_size' => 'large',
+        'library' => 'all',
+        'min_width' => 0,
+        'min_height' => 0,
+        'min_size' => 0,
+        'max_width' => 0,
+        'max_height' => 0,
+        'max_size' => 0,
+        'mime_types' => '',
+    );
+
+    $fieldFooterCopyright = array (
+        'key' => 'FooterCopyright',
+        'label' => 'FooterCopyright',
+        'name' => 'link_in_bio_FooterCopyright',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'default_value' => '© Copyright 2022 Rack-A-Tiers Mfg. Inc. All Rights Reserved.',
+    );
+
+    $image_fieldFooterLogo = array (
+        'key' => 'FooterLogo',
+        'label' => 'Footer Logo',
+        'name' => 'link_in_bio_FooterLogo',
+        'type' => 'image',
+        'return_format' => 'array',
+        'preview_size' => 'large',
+        'library' => 'all',
+        'min_width' => 0,
+        'min_height' => 0,
+        'min_size' => 0,
+        'max_width' => 0,
+        'max_height' => 0,
+        'max_size' => 0,
+        'mime_types' => '',
+    );
+
+    $fieldContactUsTitle = array (
+        'key' => 'contact_us_title',
+        'label' => 'Contact Us Title',
+        'name' => 'link_in_bio_contact_us_title',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+
+        /* (mixed) A default value used by ACF if no value has yet been saved */
+        'default_value' => 'Contact Us',
+    );
+
+    $image_field_contactUsFacebook = array(
+        'key' => 'image_field_contactUsFacebook',
+        'label' => 'Image Facebook',
+        'name' => 'link_in_bio_image_field_contactUsFacebook',
+        'type' => 'image',
+        'return_format' => 'array',
+        'preview_size' => 'thumbnail',
+        'library' => 'all',
+        'min_width' => 0,
+        'min_height' => 0,
+        'min_size' => 0,
+        'max_width' => 0,
+        'max_height' => 0,
+        'max_size' => 0,
+        'mime_types' => '',
+    );
+
+    $fieldURLContactUsFacebook = array (
+        'key' => 'fieldURLContactUsFacebook',
+        'label' => 'URL Facebook',
+        'name' => 'link_in_bio_fieldURLContactUsFacebook',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'value' => '',
+    );
+
+    $image_field_contactUsPhone = array(
+        'key' => 'image_field_contactUsPhone',
+        'label' => 'Image Phone',
+        'name' => 'link_in_bio_image_field_contactUsPhone',
+        'type' => 'image',
+        'return_format' => 'array',
+        'preview_size' => 'thumbnail',
+        'library' => 'all',
+        'min_width' => 0,
+        'min_height' => 0,
+        'min_size' => 0,
+        'max_width' => 0,
+        'max_height' => 0,
+        'max_size' => 0,
+        'mime_types' => '',
+    );
+
+    $fieldURLContactUsPhone= array (
+        'key' => 'link_in_bio_fieldURLContactUsPhone',
+        'label' => 'URL Phone',
+        'name' => 'link_in_bio_fieldURLContactUsPhone',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'value' => '',
+    );
+
+    $fieldFollowUsTitle = array (
+        'key' => 'FollowUsTitle',
+        'label' => 'Follow Us Title',
+        'name' => 'link_in_bio_FollowUsTitle',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        /* (mixed) A default value used by ACF if no value has yet been saved */
+        'default_value' => 'Follow Us',
+    );
+
+	$repeaterFollowUsLinks = array(
+        'key' => 'field_5c18f8a29941c',
+        'label' => 'Repeater Follow Us links',
+        'name' => 'link_in_bio_repeaterFollowUsLinks',
+        'type' => 'repeater',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array(
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'collapsed' => '',
+        'min' => 0,
+        'max' => 0,
+        'layout' => 'table',
+        'button_label' => '',
+        'sub_fields' => array(
+            array(
+                'key' => 'image_field_FollowUsFacebook',
+                'label' => 'Image',
+                'name' => 'link_in_bio_repeaterFollowUsLinks_Image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'thumbnail',
+                'library' => 'all',
+                'min_width' => 0,
+                'min_height' => 0,
+                'min_size' => 0,
+                'max_width' => 0,
+                'max_height' => 0,
+                'max_size' => 0,
+                'mime_types' => '',
+            ),
+            array (
+                'key' => 'link_in_bio_fieldURLFollowUsFacebook',
+                'label' => 'URL',
+                'name' => 'link_in_bio_repeaterFollowUsLinks_URL',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'value' => '',
+            ),
+            array (
+                'key' => 'link_in_bio_repeaterFollowUsLinks_ALT',
+                'label' => 'image ALT',
+                'name' => 'link_in_bio_repeaterFollowUsLinks_ALT',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'value' => '',
+            )
+        ),
+    );
+
+    acf_add_local_field_group(array(
+        'key' => 'settings_for_link_in_bio1',
+        'title' => 'Fields for Link In Bio plugin',
+        'fields' => array (
+            $image_fieldHeaderLogo,
+            $fieldContactUsTitle,
+            $image_field_contactUsFacebook,
+            $fieldURLContactUsFacebook,
+            $image_field_contactUsPhone,
+            $fieldURLContactUsPhone,
+            $fieldFollowUsTitle,
+            $repeaterFollowUsLinks,
+            $fieldContactFormId,
+            $fieldContactFormTitle,
+            $fieldContactFormDescription,
+            $fieldFooterCopyright,
+            $image_fieldFooterLogo
+        ),
+        'location' => array (
+            array (
+                array (
+                    'param' => 'options_page',
+                    'operator' => '==',
+                    'value' => 'settings_for_link_in_bio',
+                ),
+            ),
+        ),
+    ));
+
+}
+
+add_action('acf/init', 'my_acf_add_settings_for_link_in_bio');
+
+if (function_exists('acf_add_options_page')) {
+
+    acf_add_options_page(array(
+        'page_title'     => 'Link In Bio Settings',
+        'menu_title'     => 'Link In Bio Settings',
+        'menu_slug'     => 'settings_for_link_in_bio',
+        'redirect'         => false
+    ));
+}
+
+add_action("rest_api_init", function () {
+    register_rest_route("acf_options", "/all", [
+        "methods" => "GET",
+        "callback" => "acf_options_route",
+    ]);
+});
+
+function acf_options_route() {
+    return get_fields('options');
+}
 
 // Enabling the REST API For Your ACF Fields in plugin (include all fields in custom posts)
 function create_ACF_meta_in_REST() {
