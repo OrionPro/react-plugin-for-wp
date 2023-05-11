@@ -581,7 +581,7 @@ function my_acf_add_settings_for_link_in_bio() {
 
 	$repeaterFollowUsLinks = array(
         'key' => 'field_5c18f8a29941c',
-        'label' => 'Repeater Follow Us links',
+        'label' => 'Follow Us Repeater links',
         'name' => 'link_in_bio_repeaterFollowUsLinks',
         'type' => 'repeater',
         'instructions' => '',
