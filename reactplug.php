@@ -494,70 +494,72 @@ function my_acf_add_settings_for_link_in_bio() {
         'default_value' => 'Contact Us',
     );
 
-    $image_field_contactUsFacebook = array(
-        'key' => 'image_field_contactUsFacebook',
-        'label' => 'Image Facebook',
-        'name' => 'link_in_bio_image_field_contactUsFacebook',
-        'type' => 'image',
-        'return_format' => 'array',
-        'preview_size' => 'thumbnail',
-        'library' => 'all',
-        'min_width' => 0,
-        'min_height' => 0,
-        'min_size' => 0,
-        'max_width' => 0,
-        'max_height' => 0,
-        'max_size' => 0,
-        'mime_types' => '',
-    );
-
-    $fieldURLContactUsFacebook = array (
-        'key' => 'fieldURLContactUsFacebook',
-        'label' => 'URL Facebook',
-        'name' => 'link_in_bio_fieldURLContactUsFacebook',
-        'type' => 'text',
+    $repeaterContactUsLinks = array(
+        'key' => 'field_5c1834534fgf8aContactUs',
+        'label' => 'Contact Us Repeater links',
+        'name' => 'link_in_bio_repeaterContactUsLinks',
+        'type' => 'repeater',
         'instructions' => '',
         'required' => 0,
         'conditional_logic' => 0,
-        'wrapper' => array (
+        'wrapper' => array(
             'width' => '',
             'class' => '',
             'id' => '',
         ),
-        'value' => '',
-    );
-
-    $image_field_contactUsPhone = array(
-        'key' => 'image_field_contactUsPhone',
-        'label' => 'Image Phone',
-        'name' => 'link_in_bio_image_field_contactUsPhone',
-        'type' => 'image',
-        'return_format' => 'array',
-        'preview_size' => 'thumbnail',
-        'library' => 'all',
-        'min_width' => 0,
-        'min_height' => 0,
-        'min_size' => 0,
-        'max_width' => 0,
-        'max_height' => 0,
-        'max_size' => 0,
-        'mime_types' => '',
-    );
-
-    $fieldURLContactUsPhone= array (
-        'key' => 'link_in_bio_fieldURLContactUsPhone',
-        'label' => 'URL Phone',
-        'name' => 'link_in_bio_fieldURLContactUsPhone',
-        'type' => 'text',
-        'instructions' => '',
-        'required' => 0,
-        'conditional_logic' => 0,
-        'wrapper' => array (
-            'width' => '',
-            'class' => '',
-            'id' => '',
+        'collapsed' => '',
+        'min' => 0,
+        'max' => 0,
+        'layout' => 'table',
+        'button_label' => '',
+        'sub_fields' => array(
+            array(
+                'key' => 'link_in_bio_repeaterContactUsFaceLinks_ImageKey',
+                'label' => 'Image',
+                'name' => 'link_in_bio_repeaterContactUsLinks_Image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'thumbnail',
+                'library' => 'all',
+                'min_width' => 0,
+                'min_height' => 0,
+                'min_size' => 0,
+                'max_width' => 0,
+                'max_height' => 0,
+                'max_size' => 0,
+                'mime_types' => '',
+            ),
+            array (
+                'key' => 'link_in_bio_fieldURLFollowUs',
+                'label' => 'URL',
+                'name' => 'link_in_bio_repeaterContactUsLinks_URL',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'value' => '',
+            ),
+            array (
+                'key' => 'link_in_bio_repeaterContactUsLinks_ALT_Key',
+                'label' => 'image ALT',
+                'name' => 'link_in_bio_repeaterContactUsLinks_ALT',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'value' => '',
+            )
         ),
-        'value' => '',
     );
 
     $fieldFollowUsTitle = array (
@@ -651,10 +653,7 @@ function my_acf_add_settings_for_link_in_bio() {
         'fields' => array (
             $image_fieldHeaderLogo,
             $fieldContactUsTitle,
-            $image_field_contactUsFacebook,
-            $fieldURLContactUsFacebook,
-            $image_field_contactUsPhone,
-            $fieldURLContactUsPhone,
+            $repeaterContactUsLinks,
             $fieldFollowUsTitle,
             $repeaterFollowUsLinks,
             $fieldContactFormId,
