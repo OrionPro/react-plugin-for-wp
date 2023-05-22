@@ -230,13 +230,50 @@ function link_in_bio_blog_cpt() {
         'show_in_rest' => true,
         'description' => 'You can create posts for the Link In Bio page',
         'public' => true,
-        'menu_position' => 5,
+        'show_in_menu' => 'settings_for_link_in_bio',
         'supports' => array( 'title', 'editor', 'custom-fields' )
     ));
 }
 
+// add a menu page in WP on admin_init with priority < 10
+add_action('admin_menu', 'add_a_link_in_bio_settings', 9);
+function add_a_link_in_bio_settings() {
+    // all of these arguments are identical to the arguments
+    // used to create in the function acf_add_options_page()
+    $page_title = 'Link In Bio Settings';
+    $menu_title = 'Link In Bio Settings';
+    $capability = 'edit_posts';
+    // choose a menu postions that you know will not be changed
+    $position = '75.374981';
+    // set the page slug, do not let it be generated
+    // or you may not be able to find it to remove
+    $menu_slug = 'settings_for_link_in_bio';
+    $callback = '';
+    //$icon = 'dashicons-warning';
+    add_menu_page($page_title, $menu_title, $capability, $menu_slug, $callback, $position);
+}
+
+// remove the duplicate menu item
+// ACF uses a priority of 99 for the admin_menu hook
+// so we just need to call this with a higher priority
+add_action('admin_menu', 'remove_duplicate_admin_menu', 100);
+
+function remove_duplicate_admin_menu() {
+	global $menu;
+	// loop trrough the menu and remove one of the duplicates
+	// this loop is looking for the page slug
+	foreach ($menu as $key => $values) {
+		if ($values[2] == 'settings_for_link_in_bio') {
+			// found our slug, unset the menu item and exit
+			unset($menu[$key]);
+			break;
+        }
+ }
+}
+
 // Creating a local group in ACF
 function my_acf_add_local_field_groups() {
+
     $fieldTitle = array (
         /* (string) Unique identifier for the field. Must begin with 'field_' */
         'key' => 'title',
@@ -342,6 +379,13 @@ function my_acf_add_local_field_groups() {
 
     );
 
+    $link_field = array(
+        'key' => 'link',
+        'label' => 'Link',
+        'name' => 'link',
+        'type' => 'link',
+    );
+
     acf_add_local_field_group(array(
         'key' => 'link_in_bio_group_1',
         'title' => 'Fields for creating items',
@@ -349,7 +393,8 @@ function my_acf_add_local_field_groups() {
             $fieldTitle,
             $fieldPrice,
             $fieldDiscountPrice,
-            $image_field
+            $image_field,
+            $link_field
         ),
         'location' => array (
             array (
@@ -368,6 +413,18 @@ add_action('acf/init', 'my_acf_add_local_field_groups');
 
 // Creating a local group in ACF
 function my_acf_add_settings_for_link_in_bio() {
+
+    if (function_exists('acf_add_options_page')) {
+
+        acf_add_options_page(array(
+            'page_title'     => 'Link In Bio Settings',
+            'menu_title'     => 'Link In Bio Settings',
+            'position' => '75.374981',
+            'menu_slug'     => 'settings_for_link_in_bio',
+            'redirect'         => false
+        ));
+    }
+
     $fieldContactFormId= array (
         /* (string) Unique identifier for the field. Must begin with 'field_' */
         'key' => 'id_cf7',
@@ -676,16 +733,6 @@ function my_acf_add_settings_for_link_in_bio() {
 }
 
 add_action('acf/init', 'my_acf_add_settings_for_link_in_bio');
-
-if (function_exists('acf_add_options_page')) {
-
-    acf_add_options_page(array(
-        'page_title'     => 'Link In Bio Settings',
-        'menu_title'     => 'Link In Bio Settings',
-        'menu_slug'     => 'settings_for_link_in_bio',
-        'redirect'         => false
-    ));
-}
 
 add_action("rest_api_init", function () {
     register_rest_route("acf_options", "/all", [
