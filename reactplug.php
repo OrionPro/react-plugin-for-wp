@@ -420,16 +420,18 @@ function add_local_field_groups_to_page_react_tpl() {
         'key' => 'categoryId',
         'label' => 'Category Id',
         'name' => 'categoryId',
-        'type' => 'text',
-        'instructions' => '',
-        'required' => 0,
-        'conditional_logic' => 0,
-        'wrapper' => array (
-            'width' => '',
-            'class' => '',
-            'id' => '',
-        ),
-        'default_value' => '',
+        'type' => 'taxonomy',
+        'taxonomy' => 'category',
+        /* (array) Specify the appearance of the taxonomy field. Defaults to 'checkbox'
+        Choices of 'checkbox' (Checkbox inputs), 'multi_select' (Select field - multiple), 'radio' (Radio inputs) or 'select' (Select field) */
+        'field_type' => 'select',
+        /* (bool) Allow a null (blank) value to be selected. Defaults to 0 */
+        'allow_null' => 0,
+        /* (bool) Allow selected terms to be saved as relatinoships to the post */
+        'load_save_terms'   => 0,
+        /* (string) Specify the type of value returned by get_field(). Defaults to 'id'.
+        Choices of 'object' (Term object) or 'id' (Term ID) */
+        'return_format'     => 'id',
     );
 
     acf_add_local_field_group(array(
