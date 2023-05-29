@@ -231,7 +231,9 @@ function link_in_bio_blog_cpt() {
         'description' => 'You can create posts for the Link In Bio page',
         'public' => true,
         'show_in_menu' => 'settings_for_link_in_bio',
-        'supports' => array( 'title', 'editor', 'custom-fields' )
+        'supports' => array( 'title', 'editor', 'custom-fields' ),
+        // This is where we add taxonomies to our CPT
+        'taxonomies'          => array( 'category' ),
     ));
 }
 
@@ -272,7 +274,7 @@ function remove_duplicate_admin_menu() {
 }
 
 // Creating a local group in ACF
-function my_acf_add_local_field_groups() {
+function add_local_field_groups_to_post_type_link_in_bio_posts() {
 
     $fieldTitle = array (
         /* (string) Unique identifier for the field. Must begin with 'field_' */
@@ -409,7 +411,47 @@ function my_acf_add_local_field_groups() {
 
 }
 
-add_action('acf/init', 'my_acf_add_local_field_groups');
+add_action('acf/init', 'add_local_field_groups_to_post_type_link_in_bio_posts');
+
+// Creating a local group in ACF
+function add_local_field_groups_to_page_react_tpl() {
+
+    $fieldCategoryId = array (
+        'key' => 'categoryId',
+        'label' => 'Category Id',
+        'name' => 'categoryId',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array (
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'default_value' => '',
+    );
+
+    acf_add_local_field_group(array(
+        'key' => 'link_in_bio_add_local_field_groups_to_page_react_tpl',
+        'title' => 'Category Id for filtering this page items',
+        'fields' => array (
+            $fieldCategoryId,
+        ),
+        'location' => array (
+            array (
+                array (
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'react-template.php',
+                ),
+            ),
+        ),
+    ));
+
+}
+
+add_action('acf/init', 'add_local_field_groups_to_page_react_tpl');
 
 // Creating a local group in ACF
 function my_acf_add_settings_for_link_in_bio() {
@@ -500,6 +542,13 @@ function my_acf_add_settings_for_link_in_bio() {
         'mime_types' => '',
     );
 
+    $color_picker_header_bg = array(
+        'key' => 'color_picker_header',
+        'label' => 'Header background',
+        'name' => 'color_picker_header_bg',
+        'type' => 'color_picker',
+    );
+
     $fieldFooterCopyright = array (
         'key' => 'FooterCopyright',
         'label' => 'FooterCopyright',
@@ -531,6 +580,20 @@ function my_acf_add_settings_for_link_in_bio() {
         'max_height' => 0,
         'max_size' => 0,
         'mime_types' => '',
+    );
+
+    $color_picker_footer_second_bg = array(
+        'key' => 'color_picker_footer_second_bg',
+        'label' => 'Footer second color background',
+        'name' => 'color_picker_footer_second_bg',
+        'type' => 'color_picker',
+    );
+
+    $color_picker_footer_bg = array(
+        'key' => 'color_picker_footer',
+        'label' => 'Footer background',
+        'name' => 'color_picker_footer_bg',
+        'type' => 'color_picker',
     );
 
     $fieldContactUsTitle = array (
@@ -709,6 +772,7 @@ function my_acf_add_settings_for_link_in_bio() {
         'title' => 'Fields for Link In Bio plugin',
         'fields' => array (
             $image_fieldHeaderLogo,
+            $color_picker_header_bg,
             $fieldContactUsTitle,
             $repeaterContactUsLinks,
             $fieldFollowUsTitle,
@@ -717,7 +781,9 @@ function my_acf_add_settings_for_link_in_bio() {
             $fieldContactFormTitle,
             $fieldContactFormDescription,
             $fieldFooterCopyright,
-            $image_fieldFooterLogo
+            $image_fieldFooterLogo,
+            $color_picker_footer_bg,
+            $color_picker_footer_second_bg
         ),
         'location' => array (
             array (
@@ -807,3 +873,19 @@ function fix_svg_link_in_bio()
 }
 
 add_action('admin_head', 'fix_svg_link_in_bio');
+
+add_filter( 'manage_edit-category_columns', 'we_categoriesColumnsHeader' );
+add_filter( 'manage_category_custom_column', 'we_categoriesColumnsRow', 10, 3 );
+/**
+ * Add Category ID column in admin
+ *
+ */
+function we_categoriesColumnsHeader($columns) {
+    $columns['catID'] = __('ID');
+    return $columns;
+}
+function we_categoriesColumnsRow($argument, $columnName, $categoryID){
+    if($columnName == 'catID'){
+        return $categoryID;
+    }
+}
