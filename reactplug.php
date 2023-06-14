@@ -12,11 +12,11 @@
  * Version:         1.0
  */
 /**/
-function reactshort() {
+function shortcodeInit() {
     return '<div id="root"></div>';
 }
 // register shortcode
-add_shortcode('rack-a-tier', 'reactshort');
+add_shortcode('link-in-bio', 'shortcodeInit');
 
 add_filter( 'script_loader_tag', function ( $tag, $handle ) {
 
@@ -35,7 +35,7 @@ add_action('wp_enqueue_scripts', 'enq_react', 99); // 99 - adding a priority
 function enq_react()
 {
 	global $post;
-	if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'rack-a-tier') ) {
+	if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'link-in-bio') ) {
         function hook_metatag() {
             ?>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
