@@ -469,31 +469,55 @@ function my_acf_add_settings_for_link_in_bio() {
         ));
     }
 
-    $fieldContactFormId= array (
+    $fieldKlaviyoCompanyId= array (
         /* (string) Unique identifier for the field. Must begin with 'field_' */
-        'key' => 'id_cf7',
+        'key' => 'id_link_in_bio_company_id',
         /* (string) Visible when editing the field value */
-        'label' => 'Contact Form Id',
+        'label' => 'Klaviyo Company Id',
         /* (string) Used to save and load data. Single word, no spaces. Underscores and dashes allowed */
-        'name' => 'link_in_bio_contact_form_id',
+        'name' => 'id_link_in_bio_company_id',
         /* (string) Type of field (text, textarea, image, etc) */
         'type' => 'text',
-        /* (string) Instructions for authors. Shown when submitting data */
-        'instructions' => '',
-        /* (int) Whether or not the field value is required. Defaults to 0 */
         'required' => 0,
-        /* (mixed) Conditionally hide or show this field based on other field's values.
-        Best to use the ACF UI and export to understand the array structure. Defaults to 0 */
-        'conditional_logic' => 0,
-        /* (array) An array of attributes given to the field element */
-        'wrapper' => array (
-            'width' => '',
-            'class' => '',
-            'id' => '',
-        ),
-        /* (mixed) A default value used by ACF if no value has yet been saved */
-        'default_value' => '',
     );
+
+    $fieldKlaviyoListId= array (
+        /* (string) Unique identifier for the field. Must begin with 'field_' */
+        'key' => 'id_link_in_bio_list_id',
+        /* (string) Visible when editing the field value */
+        'label' => 'Klaviyo List Id',
+        /* (string) Used to save and load data. Single word, no spaces. Underscores and dashes allowed */
+        'name' => 'id_link_in_bio_list_id',
+        /* (string) Type of field (text, textarea, image, etc) */
+        'type' => 'text',
+        'required' => 0,
+    );
+
+//    $fieldContactFormId= array (
+//        /* (string) Unique identifier for the field. Must begin with 'field_' */
+//        'key' => 'id_cf7',
+//        /* (string) Visible when editing the field value */
+//        'label' => 'Contact Form Id',
+//        /* (string) Used to save and load data. Single word, no spaces. Underscores and dashes allowed */
+//        'name' => 'link_in_bio_contact_form_id',
+//        /* (string) Type of field (text, textarea, image, etc) */
+//        'type' => 'text',
+//        /* (string) Instructions for authors. Shown when submitting data */
+//        'instructions' => '',
+//        /* (int) Whether or not the field value is required. Defaults to 0 */
+//        'required' => 0,
+//        /* (mixed) Conditionally hide or show this field based on other field's values.
+//        Best to use the ACF UI and export to understand the array structure. Defaults to 0 */
+//        'conditional_logic' => 0,
+//        /* (array) An array of attributes given to the field element */
+//        'wrapper' => array (
+//            'width' => '',
+//            'class' => '',
+//            'id' => '',
+//        ),
+//        /* (mixed) A default value used by ACF if no value has yet been saved */
+//        'default_value' => '',
+//    );
 
     $fieldContactFormTitle = array (
         'key' => 'ContactFormTitle',
@@ -779,7 +803,9 @@ function my_acf_add_settings_for_link_in_bio() {
             $repeaterContactUsLinks,
             $fieldFollowUsTitle,
             $repeaterFollowUsLinks,
-            $fieldContactFormId,
+            $fieldKlaviyoCompanyId,
+            $fieldKlaviyoListId,
+            //$fieldContactFormId,
             $fieldContactFormTitle,
             $fieldContactFormDescription,
             $fieldFooterCopyright,
